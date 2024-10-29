@@ -1,0 +1,41 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: dipkumarnesadiya1205
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: serverless-backend-nodejs
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-south-1
+  environment:
+    STAGE: ${env:STAGE, "prod"}
+  iam:
+    role:
+      name: serverless-my-ssm-role
+      statements:
+        - Effect: "Allow"
+          Resource: "*"
+          Action:
+            - "ssm:GetParameter"
+            - "ssm:GetParameters"
+            - "ssm:GetParametersByPath"
+            - "ssm:GetParameterHistory"
+            - "ssm:DescribeParameters"
+
+functions:
+  api:
+    handler: src/index.handler
+    events:
+      - httpApi: "*"
+
+custom:
+  dotenv:
+    exclude:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_SESSION_TOKEN
+      - DATABASE_URL
+
+plugins:
+  - serverless-offline
