@@ -20,7 +20,7 @@ app.get("/", async (req, res, next) => {
   });
 });
 
-app.get("/leads/:id", async (req, res) => {
+app.get("/api/leads/:id", async (req, res) => {
   const { id } = req.params;
   const leadsDetails = await getLead(id);
   return res.status(200).json({
@@ -29,7 +29,7 @@ app.get("/leads/:id", async (req, res) => {
   });
 });
 
-app.get("/leads", async (req, res) => {
+app.get("/api/leads", async (req, res) => {
   const leadsDetails = await listLeads();
   return res.status(200).json({
     message: "List of leads",
@@ -37,7 +37,7 @@ app.get("/leads", async (req, res) => {
   });
 });
 
-app.post("/leads", async (req, res) => {
+app.post("/api/leads", async (req, res) => {
   const postData = req.body;
 
   // Validate the input data.
